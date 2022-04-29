@@ -178,7 +178,7 @@ module leftHinge() {
 }
 
 //Test
-//$fn = 60;
+$fn = 60;
 //elongatedScrewHole(20, 6, 10);
 //roundedConnector(taperValue = 1.5);
 //roundedConnectorPair(distanceBetweenConnectors = 31);

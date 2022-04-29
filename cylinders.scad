@@ -112,5 +112,5 @@ module roundedCylinder(diameter = 10, roundedRadius = 2, height = 20, center = f
 //Test
 //rodWithThreads(diameter = 23, height = 100, endType = "both", threadLength = 20, threadPitch = 2, threadHoleAdjustment = 0.8);
 //roundedCylinder(diameter = 20, roundedRadius = 4, center = false);
-$fn = 100;
-hollowCylinder(outerDiameter = 84, innerDiameter = 81, topOuterDiameter = 125, topInnerDiameter = 122, height = 113, center = false, hasFloor = true, rounded = "top", floorThickness = 3);
+//$fn = 100;
+//hollowCylinder(outerDiameter = 84, innerDiameter = 81, topOuterDiameter = 125, topInnerDiameter = 122, height = 113, center = false, hasFloor = true, rounded = "top", floorThickness = 3);
