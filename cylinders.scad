@@ -1,5 +1,5 @@
-use <../bosl/constants.scad>
-include <../bosl/threading.scad>
+use <./bosl/constants.scad>
+include <./bosl/threading.scad>
 use <shapes.scad>
 
 //Creates a rod with threads on one or both ends. These rods can be threaded into each other
