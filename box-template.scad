@@ -11,7 +11,8 @@ module boxWithLid(length = 10, width = 10, height = 10, roundedRadius = 1, round
 
     echo("LidHeight: ", lidHeight);
     if (includeLid) {
-        lid();
+        wallThickness = lidOffsetWidth - lidSlop;
+        translate([0, width + 10, 0]) lid(length, width, lidHeight, roundedRadius, wallThickness, lidTopThickness, roundingShape, roundedLidOffset);
     }
 
     module mainBoxShape() {
@@ -42,15 +43,22 @@ module boxWithLid(length = 10, width = 10, height = 10, roundedRadius = 1, round
             roundingShape = "circle", dimensionType = "outer", center = false, roundedInterior = roundedLidOffset);
 
     }
+}
 
-    module lid() {
-        echo("**********Lid**********")
-        translate([0, width + 10, 0]) hollowRoundedCube(length = length, width = width, height = lidHeight, radius = roundedRadius, wallThickness = lidOffsetWidth - lidSlop, hasFloor = true, 
-            floorThickness = lidTopThickness, roundingShape = roundingShape, topRoundingShape = "circle", dimensionType = "outer", center = false, roundedInterior = roundedLidOffset);
-    }
+module lid(length = 10, width = 10, height = 10, roundedRadius = 1, wallThickness = 3, lidTopThickness = 2, roundingShape = "sphere", roundedLidOffset = false) {
+    echo("**********Lid**********")
+    hollowRoundedCube(length = length, width = width, height = height, radius = roundedRadius, wallThickness = wallThickness, hasFloor = true, 
+        floorThickness = lidTopThickness, roundingShape = roundingShape, topRoundingShape = "circle", dimensionType = "outer", center = false, 
+        roundedInterior = roundedLidOffset);
 }
 
 //test
-//$fn = 100;
-//boxWithLid(length = 120, width = 80, height = 10, roundedRadius = 2, roundingShape = "sphere", lidHeight = 5 + 5, lidOffsetWidth = 1.5, 
-//    lidOffsetHeight = 5, lidSlop = 0.7, lidTopThickness = 2, hollow = true, wallThickness = 3, roundedInterior = false, roundedLidOffset = false);
+$fn = 100;
+length = 120;
+width = 80;
+height = 10;
+wallThickness = 3;
+
+boxWithLid(length = 120, width = 80, height = 10, roundedRadius = 2, roundingShape = "sphere", lidHeight = 5 + 5, lidOffsetWidth = 1.5, 
+    lidOffsetHeight = 5, lidSlop = 0.7, lidTopThickness = 2, hollow = true, wallThickness = wallThickness, includeLid = false, roundedInterior = false, roundedLidOffset = false);
+translate([0, width + 10, 0])  lid(length = length, width = width, height = height, roundedRadius = 2, wallThickness = wallThickness, lidTopThickness = 2, roundingShape = "sphere", roundedLipOffset = false);
