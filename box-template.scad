@@ -11,7 +11,6 @@ module boxWithLid(length = 10, width = 10, height = 10, roundedRadius = 1, round
 
     echo("LidHeight: ", lidHeight);
     if (includeLid) {
-        wallThickness = lidOffsetWidth - lidSlop;
         translate([0, width + 10, 0]) lid(length, width, lidHeight, roundedRadius, wallThickness, lidTopThickness, roundingShape, roundedLidOffset);
     }
 
@@ -45,8 +44,10 @@ module boxWithLid(length = 10, width = 10, height = 10, roundedRadius = 1, round
     }
 }
 
-module lid(length = 10, width = 10, height = 10, roundedRadius = 1, wallThickness = 3, lidTopThickness = 2, roundingShape = "sphere", roundedLidOffset = false) {
-    echo("**********Lid**********")
+module lid(length = 10, width = 10, height = 10, roundedRadius = 1, lidOffsetWidth = 1.5, lidSlop = 0.5, lidTopThickness = 2, roundingShape = "sphere", roundedLidOffset = false) {
+    //TODO: don't accept wallThickness, instead accept lidOffsetWidth and then wallThickness is lidOffsetWidth - lidSlop 
+    echo("**********Lid**********");
+    wallThickness = lidOffsetWidth - lidSlop;
     hollowRoundedCube(length = length, width = width, height = height, radius = roundedRadius, wallThickness = wallThickness, hasFloor = true, 
         floorThickness = lidTopThickness, roundingShape = roundingShape, topRoundingShape = "circle", dimensionType = "outer", center = false, 
         roundedInterior = roundedLidOffset);
