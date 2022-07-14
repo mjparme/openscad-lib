@@ -30,12 +30,5 @@ module clamp(clampInnerLength = 26, clampWidth = 21, clampInnerHeight = 50, clam
     }
 }
 
-//ClampInnerHeight used for the clamp part works well as the screwLength
-module knurledScrew(screwDiameter = 10, screwBaseDiameter = 12, screwBaseHeight = 20, screwLength = 50, screwThreadPitch = 2) {
-    knurl(k_cyl_hg	= screwBaseHeight, k_cyl_od	= screwBaseDiameter, knurl_dp =  1);
-    translate([0, 0, screwBaseHeight]) threaded_rod(d = screwDiameter, l = screwLength, pitch = screwThreadPitch, internal = false, slop = 0, orient=ORIENT_Z, align=V_UP);
-}
-
 //$fn = 30;
-clamp(outerRoundedRadius = 2);
-//knurledScrew();
+//clamp(outerRoundedRadius = 2);
