@@ -1,3 +1,5 @@
+include <shapes.scad>
+
 /**
     Used to create 4 holes seperated by the passed in dimensions. Can be used to create holes in stand offs when
     used as part of a union or can be difference out of another part. To create standoffs use a outer and inner diameter.
@@ -128,7 +130,17 @@ module pegboardPeg(diameter = 5.0, length = 8) {
     }
 }
 
-module pegboardPlate(holeDiameter = 5, thickness = 3, yLength = 100, height = 75, pegDistance = 25.4, pegsToSpanY = 2, pegsToSpanZ = 2, includeBottomPeg = true, numOfPegs = 2) {
+module straightPeg(pegBigDiameter = 9, pegBigHeight = 3, pegSmallDiameter = 5, pegSmallheight = 5.5) {
+    cylinder(d = pegSmallDiameter, h = pegSmallheight, center = true);
+    z = pegSmallheight / 2 + pegBigHeight / 2 - 0.01;
+    translate([0, 0, z]) cylinder(d = pegBigDiameter, h = pegBigHeight, center = true);
+    //filletZ = -pegSmallheight / 2;
+    //translate([0, 0, filletZ]) fillet(diameter = pegSmallDiameter, filletSize = 2);
+} 
+
+module pegboardPlate(holeDiameter = 5, thickness = 3, yLength = 100, height = 75, pegDistance = 25.4, pegsToSpanY = 2, pegsToSpanZ = 2, 
+    includeBottomPeg = true, numOfPegs = 2) {
+
     echo("yLength: ", yLength);
     echo("NumOfPegs: ", numOfPegs);
     echo("IncludeBottomPeg: ", includeBottomPeg);
@@ -173,8 +185,14 @@ module taperedHole(bottomDiameter = 4, topDiameter = 6, height = 10, center = fa
     cylinder(d1 = bottomDiameter, d2 = topDiameter, h = height, center = center);
 }
 
-module leftHinge() {
-
+module doveTail(narrowLength = 10, wideLength = 20, height = 10, narrowLocation = "top") {
+    topX = "top" == narrowLocation ?  wideLength / 2 - narrowLength / 2 : narrowLength / 2 - wideLength / 2 ;
+    square1 = "top" == narrowLocation ? [narrowLength, 0.01] : [wideLength, 0.01];
+    square2 = "top" == narrowLocation ? [wideLength, 0.01] : [narrowLength, 0.01];
+    hull() {
+        translate([topX, height]) square(square1);
+        square(square2);
+    }
 }
 
 //Test
@@ -188,3 +206,4 @@ $fn = 60;
 //pegboardPeg(6.3, 10);
 //pegboardPlate(thickness = 3, yLength = 100, height = 100, pegDistance = 25.4, pegsToSpanY = 2, pegsToSpanZ = 2);
 //taperedHole(bottomDiameter = 10, topDiameter = 12, height = 20, center = false);
+straightPeg();
