@@ -110,13 +110,12 @@ module roundedConnectorPair(height = 30, screwHoleDiameter = 5, width = 4, taper
 // -- 3/16" hole diameter pegboard is 4.7 mm diameter in metric
 // -- 1/4" hole diameter pegboard is 6.4 mm diameter in metric
 // -- 9/32" hole diameter pegboard is 7.1 mm diameter in metric
-module pegboardHookedPeg(diameter = 5.0, horizontalLength = 9, verticalLength = 8, hookAngle = 20) {
+module pegboardHookedPeg(diameter = 5.0, horizontalLength = 9, verticalLength = 8, hookAngle = 45) {
     //The horizontal component of the peg
-    translate([0, 0, diameter / 2]) rotate([0, 90, 0]) pegboardPeg(diameter, horizontalLength);
+    translate([0, 0, 0]) pegboardPeg(diameter, horizontalLength);
 
     //The vertical component of the peg
-    translate([horizontalLength - diameter / 2, 0, diameter / 2]) 
-    rotate([0, hookAngle, 0]) pegboardPeg(diameter, verticalLength);
+    translate([horizontalLength - diameter / 2, 0, 0]) rotate([0, -hookAngle, 0]) pegboardPeg(diameter, verticalLength);
 }
 
 //A straight pegboard peg, this is in the vertical orientation, rotate as necessary
@@ -124,23 +123,30 @@ module pegboardHookedPeg(diameter = 5.0, horizontalLength = 9, verticalLength = 
 // -- 1/4" hole diameter pegboard is 6.4 mm diameter in metric
 // -- 9/32" hole diameter pegboard is 7.1 mm diameter in metric
 module pegboardPeg(diameter = 5.0, length = 8) {
-    hull() {
+    rotate([0, 90, 0]) hull() {
         linear_extrude(1) circle(d = diameter);
         translate([0, 0, length - (diameter / 2)]) sphere(d = diameter);
     }
 }
 
 module straightPeg(pegBigDiameter = 9, pegBigHeight = 3, pegSmallDiameter = 5, pegSmallheight = 5.5) {
-    cylinder(d = pegSmallDiameter, h = pegSmallheight, center = true);
-    z = pegSmallheight / 2 + pegBigHeight / 2 - 0.01;
-    translate([0, 0, z]) cylinder(d = pegBigDiameter, h = pegBigHeight, center = true);
+    x = pegSmallheight / 2;
+    translate([x, 0, 0]) rotate([0, 90, 0]) union() {
+        cylinder(d = pegSmallDiameter, h = pegSmallheight, center = true);
+        z = pegSmallheight / 2 + pegBigHeight / 2 - 0.01;
+        translate([0, 0, z]) cylinder(d = pegBigDiameter, h = pegBigHeight, center = true);
+    }
     //filletZ = -pegSmallheight / 2;
     //translate([0, 0, filletZ]) fillet(diameter = pegSmallDiameter, filletSize = 2);
 } 
 
+//pegType -- one of "hooked" or "straight", 
+//pegBigDiameter, pegBigHeight, pegSmallDiameter, pegSmallheight only apply to the straight type peg
 module pegboardPlate(holeDiameter = 5, thickness = 3, yLength = 100, height = 75, pegDistance = 25.4, pegsToSpanY = 2, pegsToSpanZ = 2, 
-    includeBottomPeg = true, numOfPegs = 2) {
+    includeBottomPeg = true, numOfPegs = 2, pegType = "hooked", pegBigDiameter = 9, pegBigHeight = 3, pegSmallDiameter = 5, 
+    pegSmallheight = 5.5) {
 
+    echo("***** Pegboard Plate *****");
     echo("yLength: ", yLength);
     echo("NumOfPegs: ", numOfPegs);
     echo("IncludeBottomPeg: ", includeBottomPeg);
@@ -171,12 +177,21 @@ module pegboardPlate(holeDiameter = 5, thickness = 3, yLength = 100, height = 75
 
     module topPeg() {
         //This translate gets the center of the peg at the origin so we can not worry about it in the parent module
-        translate([0, 0, -5 / 2]) rotate([0, 0, 180]) pegboardHookedPeg(diameter = holeDiameter);
+        rotate([0, 0, 180]) 
+        if (pegType == "hooked") {
+            pegboardHookedPeg(diameter = holeDiameter);
+        } else if (pegType == "straight") {
+            straightPeg(pegBigDiameter, pegBigHeight, pegSmallDiameter, pegSmallheight);
+        }
     }
 
     module bottomPeg() {
-        rotate([0, -90, 0]) pegboardPeg(diameter = holeDiameter);
-
+        rotate([0, 0, 180]) 
+        if (pegType == "hooked") {
+            pegboardPeg(diameter = holeDiameter);
+        } else if (pegType == "straight") {
+            straightPeg(pegBigDiameter, pegBigHeight, pegSmallDiameter, pegSmallheight);
+        }
     }
 }
 
@@ -196,14 +211,16 @@ module doveTail(narrowLength = 10, wideLength = 20, height = 10, narrowLocation 
 }
 
 //Test
-$fn = 60;
+//$fn = 60;
 //elongatedScrewHole(20, 6, 10);
 //roundedConnector(taperValue = 1.5);
 //roundedConnectorPair(distanceBetweenConnectors = 31);
 //a diameter of 5.1 fits well in both 3/16" and 9/32" pegboard
 //pegboardHookedPeg(5.2, 8, 7);
 //pegboardHookedPeg(6.3, 9, 10);
-//pegboardPeg(6.3, 10);
 //pegboardPlate(thickness = 3, yLength = 100, height = 100, pegDistance = 25.4, pegsToSpanY = 2, pegsToSpanZ = 2);
 //taperedHole(bottomDiameter = 10, topDiameter = 12, height = 20, center = false);
-straightPeg();
+//pegboardPlate(pegType = "straight",  includeBottomPeg = true);
+//straightPeg();
+//pegboardHookedPeg();
+//pegboardPeg();
