@@ -18,7 +18,7 @@ module boxWithLid(length = 10, width = 10, height = 10, roundedRadius = 1, round
 
     if (includeLid) {
         translate([0, width + 10, 0]) lid(length = length, width = width, height = lidHeight, roundedRadius = roundedRadius, lidOffsetWidth = lidOffsetWidth, 
-            lidTopThickness = lidTopThickness, roundingShape = roundingShape, roundedLidOffset = roundedLidOffset);
+            lidTopThickness = lidTopThickness, roundingShape = roundingShape, roundedLidOffset = roundedLidOffset, lidSlop = lidSlop);
     }
 
     module mainBoxShape() {

@@ -160,6 +160,8 @@ module pegboardPlate(holeDiameter = 5, thickness = 3, yLength = 100, height = 75
 
     //Want the top pegs to be close to the top so they can be put in the pegboard
     firstPegY = yLength - (yLength / 2 - totalPegLength / 2);
+    //TODO: this holeDiameter is the diameter of the hooked peg, the diameter of the straight peg comes from pegSmallDiameter
+    //TODO: use the correct one based on peg type
     firstPegZ = height - (holeDiameter / 2);
 
     cube([thickness, yLength, height]);
@@ -220,7 +222,7 @@ module doveTail(narrowLength = 10, wideLength = 20, height = 10, narrowLocation 
 //pegboardHookedPeg(6.3, 9, 10);
 //pegboardPlate(thickness = 3, yLength = 100, height = 100, pegDistance = 25.4, pegsToSpanY = 2, pegsToSpanZ = 2);
 //taperedHole(bottomDiameter = 10, topDiameter = 12, height = 20, center = false);
-//pegboardPlate(pegType = "straight",  includeBottomPeg = true);
+pegboardPlate(pegType = "straight",  includeBottomPeg = true);
 //straightPeg();
 //pegboardHookedPeg();
 //pegboardPeg();
