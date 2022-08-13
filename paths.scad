@@ -1,9 +1,9 @@
-module plotCircle(radius = 10, numOfPoints = 16, rotatePerpendicularToCenter = false, degreesOfRotation = 360) {
+module plotCircle(radius = 10, numOfPoints = 16, degreesOfRotation = 360, rotatePerpendicularToCenter = false, direction = "cw") {
     //Simple division to know how often to plot a point based on the number requested
     degreesPerPoint = degreesOfRotation / numOfPoints;
 
     for(point = [0 : numOfPoints - 1]) {
-        angle = degreesPerPoint * point;
+        angle = degreesPerPoint * (direction == "cw" ?  point : -point);
         plottedPoint = circlePoint(radius, angle);
 
         //echo("Point: ", point);
@@ -112,17 +112,17 @@ function circlePointWithAngle(radius, angle) =
         //returns [x,y] position of point given radius and angle
         [radius * sin(angle), radius * cos(angle), angle];
 
-function getCirclePoints(radius = 10, numOfPoints = 16, degreesOfRotation = 360) = [
+function getCirclePoints(radius = 10, numOfPoints = 16, degreesOfRotation = 360, direction = "cw") = [
     let(degreesPerPoint = degreesOfRotation / numOfPoints) 
     for (point = [0 : numOfPoints - 1]) 
-        let(angle = degreesPerPoint * point)
+        let(angle = degreesPerPoint * (direction == "cw" ?  point : -point))
         circlePoint(radius, angle)
 ];
 
-function getCirclePointsWithAngle(radius = 10, numOfPoints = 16, degreesOfRotation = 360) = [
+function getCirclePointsWithAngle(radius = 10, numOfPoints = 16, degreesOfRotation = 360, direction = "cw") = [
     let(degreesPerPoint = degreesOfRotation / numOfPoints) 
     for (point = [0 : numOfPoints - 1]) 
-        let(angle = degreesPerPoint * point)
+        let(angle = degreesPerPoint * (direction == "cw" ?  point : -point))
         circlePointWithAngle(radius, angle)
 ];
 
@@ -179,5 +179,9 @@ $fn = 60;
 //repeatObjectInArea(numOfObjects = 3, lengthOfArea = 100) {
 //    sphere(3);
 //}
-points = getCirclePointsWithAngle(radius = 10, numOfPoints = 32, degreesOfRotation = 720);
-echo("points: ", points);
+//points = getCirclePointsWithAngle(radius = 10, numOfPoints = 32, degreesOfRotation = 720, direction = "ccw");
+//points = getCirclePoints(radius=10, numOfPoints=16, degreesOfRotation=360, direction="ccw");
+//echo("points: ", points);
+//plotCircle(radius=30, numOfPoints=4, rotatePerpendicularToCenter=true, degreesOfRotation=45, direction = "cw") {
+// cube([3, 8, 3], center = true);
+//}
