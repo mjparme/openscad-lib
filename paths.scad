@@ -1,6 +1,6 @@
-module plotCircle(radius = 10, numOfPoints = 16, rotatePerpendicularToCenter = false) {
+module plotCircle(radius = 10, numOfPoints = 16, rotatePerpendicularToCenter = false, degreesOfRotation = 360) {
     //Simple division to know how often to plot a point based on the number requested
-    degreesPerPoint = 360 / numOfPoints;
+    degreesPerPoint = degreesOfRotation / numOfPoints;
 
     for(point = [0 : numOfPoints - 1]) {
         angle = degreesPerPoint * point;
@@ -112,15 +112,15 @@ function circlePointWithAngle(radius, angle) =
         //returns [x,y] position of point given radius and angle
         [radius * sin(angle), radius * cos(angle), angle];
 
-function getCirclePoints(radius = 10, numOfPoints = 16) = [
-    let(degreesPerPoint = 360 / numOfPoints) 
+function getCirclePoints(radius = 10, numOfPoints = 16, degreesOfRotation = 360) = [
+    let(degreesPerPoint = degreesOfRotation / numOfPoints) 
     for (point = [0 : numOfPoints - 1]) 
         let(angle = degreesPerPoint * point)
         circlePoint(radius, angle)
 ];
 
-function getCirclePointsWithAngle(radius = 10, numOfPoints = 16) = [
-    let(degreesPerPoint = 360 / numOfPoints) 
+function getCirclePointsWithAngle(radius = 10, numOfPoints = 16, degreesOfRotation = 360) = [
+    let(degreesPerPoint = degreesOfRotation / numOfPoints) 
     for (point = [0 : numOfPoints - 1]) 
         let(angle = degreesPerPoint * point)
         circlePointWithAngle(radius, angle)
@@ -179,3 +179,5 @@ $fn = 60;
 //repeatObjectInArea(numOfObjects = 3, lengthOfArea = 100) {
 //    sphere(3);
 //}
+points = getCirclePointsWithAngle(radius = 10, numOfPoints = 32, degreesOfRotation = 720);
+echo("points: ", points);
