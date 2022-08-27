@@ -142,9 +142,10 @@ module straightPeg(pegBigDiameter = 9, pegBigHeight = 3, pegSmallDiameter = 5, p
 
 //pegType -- one of "hooked" or "straight", 
 //pegBigDiameter, pegBigHeight, pegSmallDiameter, pegSmallheight only apply to the straight type peg
+//pegOnly -- true if you only want the pegs and no plate, false if you want the pegs and the plate
 module pegboardPlate(holeDiameter = 5, thickness = 3, yLength = 100, height = 75, pegDistance = 25.4, pegsToSpanY = 2, pegsToSpanZ = 2, 
     includeBottomPeg = true, numOfPegs = 2, pegType = "hooked", pegBigDiameter = 9, pegBigHeight = 3, pegSmallDiameter = 5, 
-    pegSmallheight = 5.5) {
+    pegSmallheight = 5.5, pegOnly = false) {
 
     echo("***** Pegboard Plate *****");
     echo("yLength: ", yLength);
@@ -160,11 +161,13 @@ module pegboardPlate(holeDiameter = 5, thickness = 3, yLength = 100, height = 75
 
     //Want the top pegs to be close to the top so they can be put in the pegboard
     firstPegY = yLength - (yLength / 2 - totalPegLength / 2);
-    //TODO: this holeDiameter is the diameter of the hooked peg, the diameter of the straight peg comes from pegSmallDiameter
-    //TODO: use the correct one based on peg type
-    firstPegZ = height - (holeDiameter / 2);
+    //Position the peg in the Z based on the diameter of the peg, the hooked and straight peg use different variables for their diameters
+    firstPegZ = height - ((pegType == "hooked" ? holeDiameter : pegSmallDiameter) / 2);
 
-    cube([thickness, yLength, height]);
+    if (!pegOnly)  {
+        cube([thickness, yLength, height]);
+    }
+
     for (i = [0:numOfPegs - 1]) {
         translate([0, firstPegY - (i * pegSpacingY), firstPegZ]) topPeg();
         if (includeBottomPeg) {
@@ -222,7 +225,7 @@ module doveTail(narrowLength = 10, wideLength = 20, height = 10, narrowLocation 
 //pegboardHookedPeg(6.3, 9, 10);
 //pegboardPlate(thickness = 3, yLength = 100, height = 100, pegDistance = 25.4, pegsToSpanY = 2, pegsToSpanZ = 2);
 //taperedHole(bottomDiameter = 10, topDiameter = 12, height = 20, center = false);
-pegboardPlate(pegType = "straight",  includeBottomPeg = true);
+pegboardPlate(pegType = "straight",  includeBottomPeg = true, holeDiameter = 6, pegSmallDiameter = 5, pegOnly = true);
 //straightPeg();
 //pegboardHookedPeg();
 //pegboardPeg();
