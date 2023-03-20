@@ -206,22 +206,17 @@ module roundedCube(length = 10, width = 10, height = 10, radius = 1, center = fa
 }
 
 //Produces a 2D rounded square
-module roundedSquare(length = 10, width = 10, radius = 1.0) {
-    x = length - radius;
-    y = width - radius;
+module roundedSquare(length = 10, width = 10, radius = 1.0, center = true) {
+    points = [[radius, radius],
+                [length - radius, radius],
+                [radius, width - radius],
+                [length - radius, width - radius]];
 
-    hull() {
-        translate([(-x/2)+(radius/2), (-y/2)+(radius/2), 0])
-        circle(r=radius);
-
-        translate([(x/2)-(radius/2), (-y/2)+(radius/2), 0])
-        circle(r=radius);
-
-        translate([(-x/2)+(radius/2), (y/2)-(radius/2), 0])
-        circle(r=radius);
-
-        translate([(x/2)-(radius/2), (y/2)-(radius/2), 0])
-        circle(r=radius);
+    position = center ? [-length / 2, -width / 2] : [0, 0];
+    translate(position) hull() {
+        for (p = points) {
+            translate(p) circle(r = radius);
+        }
     }
 }
 
@@ -350,5 +345,6 @@ $fn = 60;
 //roundedCube(length = 40, width = 30, height = 20, center = false, roundingShape = "sphere", radius = 2.5);
 //hollowRoundedCube(length = 40, width = 30, height = 20, roundingShape = "sphere", topRoundingShape = "sphere", 
 //    dimensionType = "inner", radius = 1.5, wallThickness = 3, floorThickness = 3, hasFloor = true, roundedInterior = true, center = false);
-taperedCube(bottomLength = 40, bottomWidth = 40, topLength = 60, topWidth = 60, height = 20, wallThickness = 2, rounded = true, roundingRadius = 2, 
-    dimensionType = "inner", hollow = true, hasFloor = true, floorThickness = 2);
+//taperedCube(bottomLength = 40, bottomWidth = 40, topLength = 60, topWidth = 60, height = 20, wallThickness = 2, rounded = true, roundingRadius = 2, 
+ //   dimensionType = "inner", hollow = true, hasFloor = true, floorThickness = 2);
+ roundedSquare(length = 10, width = 10, radius = 1.0, center = false);
