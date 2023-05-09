@@ -53,6 +53,36 @@ module fillet(diameter = 10, filletSize = 2) {
     }
 }
 
+ module roundedLine(thickness = 10, length = 20, orientation = "x", rounded = "left") {
+    echo("**** roundedLine() *****");
+
+    squareDimension = orientation == "x" ? [0.01, thickness] : [thickness, 0.01];
+    //Used if rounding is wanted on the left/bottom side of the line
+    circleLocation1 = [thickness / 2, thickness / 2]; //left or bottom
+    circleLocation2 = orientation == "x" ? [length - thickness / 2, thickness / 2] : [thickness / 2, length - thickness / 2]; //right or top
+    squareLocation = orientation == "x" ? [length, 0] : [0, length];
+    echo("squareDimension: ", squareDimension);
+    echo("circleLocation1: ", circleLocation1);
+    echo("circleLocation2: ", circleLocation2);
+
+    if (rounded == "right" || rounded == "top") {
+        hull() {
+            square(squareDimension);
+            translate(circleLocation2) circle(d = thickness);
+        }
+    } else if (rounded == "left" ||  rounded == "bottom") {
+        hull() {
+            translate(circleLocation1) circle(d = thickness);
+            translate(squareLocation) square(squareDimension);
+        }
+    } else if (rounded == "both") {
+        hull() {
+            translate(circleLocation1) circle(d = thickness);
+            translate(circleLocation2) circle(d = thickness);
+        }
+    }
+}
+
 //*************Test****************
 //points = [[0, 0], [42.5, 37], [-3.7, 80], [43, 111.1]];
 //rotate_extrude() 
