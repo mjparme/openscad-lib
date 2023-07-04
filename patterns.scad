@@ -72,7 +72,11 @@ module hexagonPatternFixedSize(length = 50, width = 60, diameter = 14, height = 
 
     intersection() {
         hexagons();
-        cube([length, width, height]);
+        if ($children == 0) {
+            cube([length, width, height]);
+        } else {
+            children();
+        }
     }
 
     module hexagons() {
@@ -159,4 +163,6 @@ function getCubePatternValues(size, lengthOfArea, widthOfArea, spaceBetween) =
 //*************Test******************
 //hexes(lengthOfArea = 194, widthOfArea = 95, diameter = 17, spaceBetween = 3.5);
 //cubes(size = 15, lengthOfArea = 150, widthOfArea = 70, height = 300);
-hexagonPatternFixedSize(length = 60, width = 100, diameter = 5, height = 4, spaceBetween = 3);
+hexagonPatternFixedSize(length = 60, width = 50, diameter = 6, height = 4, spaceBetween = 2) {
+    translate([60 / 2, 50 / 2]) circle(d = 50, $fn = 100);
+}
