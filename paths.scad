@@ -1,8 +1,10 @@
-module plotCircle(radius = 10, numOfPoints = 16, degreesOfRotation = 360, rotatePerpendicularToCenter = false, direction = "cw") {
+module plotCircle(radius = 10, numOfPoints = 16, degreesOfRotation = 360, rotatePerpendicularToCenter = false, direction = "cw",
+    drawLastPoint = false) {
     //Simple division to know how often to plot a point based on the number requested
     degreesPerPoint = degreesOfRotation / numOfPoints;
+    end = drawLastPoint ? 0 : 1;
 
-    for(point = [0 : numOfPoints - 1]) {
+    for(point = [0 : numOfPoints - end]) {
         angle = degreesPerPoint * (direction == "cw" ?  point : -point);
         plottedPoint = circlePoint(radius, angle);
 
@@ -112,10 +114,11 @@ function circlePointWithAngle(radius, angle) =
         //returns [x,y] position of point given radius and angle
         [radius * sin(angle), radius * cos(angle), angle];
 
-function getCirclePoints(radius = 10, numOfPoints = 16, degreesOfRotation = 360, direction = "cw") = [
+function getCirclePoints(radius = 10, numOfPoints = 16, degreesOfRotation = 360, direction = "cw", calculateLastPoint = false, startAngle = 0) = [
+    let(end = calculateLastPoint ? 0 : 1)
     let(degreesPerPoint = degreesOfRotation / numOfPoints) 
-    for (point = [0 : numOfPoints - 1]) 
-        let(angle = degreesPerPoint * (direction == "cw" ?  point : -point))
+    for (point = [0 : numOfPoints - end]) 
+        let(angle = startAngle + degreesPerPoint * (direction == "cw" ?  point : -point))
         circlePoint(radius, angle)
 ];
 
@@ -182,6 +185,18 @@ $fn = 60;
 //points = getCirclePointsWithAngle(radius = 10, numOfPoints = 32, degreesOfRotation = 720, direction = "ccw");
 //points = getCirclePoints(radius=10, numOfPoints=16, degreesOfRotation=360, direction="ccw");
 //echo("points: ", points);
-//plotCircle(radius=30, numOfPoints=4, rotatePerpendicularToCenter=true, degreesOfRotation=45, direction = "cw") {
-// cube([3, 8, 3], center = true);
+//plotCircle(radius=radius, numOfPoints=numOfPoints, rotatePerpendicularToCenter=true, degreesOfRotation=degreesOfRotation, 
+//    direction = direction, drawLastPoint = lastPoint) {
+// circle(r = 0.5);
 //}
+
+radius = 10;
+numOfPoints = 5;
+degreesOfRotation = 180;
+direction = "cw";
+lastPoint = true;
+startAngle = 90;
+circlePoints = getCirclePoints(radius = radius, numOfPoints = numOfPoints, degreesOfRotation = degreesOfRotation, 
+    direction = direction, calculateLastPoint = lastPoint, startAngle = startAngle);
+echo("circlePoints: ", circlePoints);
+showShape(points = circlePoints, diameter = 1);
