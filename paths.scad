@@ -190,13 +190,13 @@ $fn = 60;
 // circle(r = 0.5);
 //}
 
-radius = 10;
-numOfPoints = 5;
-degreesOfRotation = 180;
-direction = "cw";
-lastPoint = true;
-startAngle = 90;
-circlePoints = getCirclePoints(radius = radius, numOfPoints = numOfPoints, degreesOfRotation = degreesOfRotation, 
-    direction = direction, calculateLastPoint = lastPoint, startAngle = startAngle);
-echo("circlePoints: ", circlePoints);
-showShape(points = circlePoints, diameter = 1);
+//radius = 10;
+//numOfPoints = 5;
+//degreesOfRotation = 180;
+//direction = "cw";
+//lastPoint = true;
+//startAngle = 90;
+//circlePoints = getCirclePoints(radius = radius, numOfPoints = numOfPoints, degreesOfRotation = degreesOfRotation, 
+    //direction = direction, calculateLastPoint = lastPoint, startAngle = startAngle);
+//echo("circlePoints: ", circlePoints);
+//showShape(points = circlePoints, diameter = 1);
