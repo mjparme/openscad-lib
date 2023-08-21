@@ -347,4 +347,4 @@ $fn = 60;
 //    dimensionType = "inner", radius = 1.5, wallThickness = 3, floorThickness = 3, hasFloor = true, roundedInterior = true, center = false);
 //taperedCube(bottomLength = 40, bottomWidth = 40, topLength = 60, topWidth = 60, height = 20, wallThickness = 2, rounded = true, roundingRadius = 2, 
  //   dimensionType = "inner", hollow = true, hasFloor = true, floorThickness = 2);
- roundedSquare(length = 10, width = 10, radius = 1.0, center = false);
+ //roundedSquare(length = 10, width = 10, radius = 1.0, center = false);
