@@ -1,7 +1,9 @@
 //pegType -- one of "hooked" or "straight", 
-//pegBigDiameter, pegBigHeight, pegSmallDiameter, pegSmallheight only apply to the straight type peg
-//pegOnly -- true if you only want the pegs and no plate, false if you want the pegs and the plate
-module hookedPegs(numOfPegs = 2, pegDiameter = 5, pegDistance = 25.4, pegsToSpanY = 2, includeBottomPeg = true, pegsToSpanZ = 2) {
+//horizontalLength - the length of the horizontal component of the peg
+//verticalLength - the length of the vertical component of the peg
+//hookAngle - the angle the vertical component is angled from the horizontal component
+module hookedPegs(numOfPegs = 2, pegDiameter = 5, pegDistance = 25.4, horizontalLength = 9, verticalLength = 8, hookAngle = 45, pegsToSpanY = 2, 
+    includeBottomPeg = true, pegsToSpanZ = 2) {
     echo("***** hookedPegs() *****");
     echo("NumOfPegs: ", numOfPegs);
     echo("IncludeBottomPeg: ", includeBottomPeg);
@@ -24,12 +26,12 @@ module hookedPegs(numOfPegs = 2, pegDiameter = 5, pegDistance = 25.4, pegsToSpan
     }
 
     module topPeg() {
-        rotate([0, 0, 180]) pegboardHookedPeg(diameter = pegDiameter);
+        rotate([0, 0, 180]) pegboardHookedPeg(diameter = pegDiameter, horizontalLength = horizontalLength, verticalLength = verticalLength, hookAngle = hookAngle);
     }
 
     module bottomPeg() {
         echo("in bottomPeg(): ");
-        rotate([0, 0, 180]) pegboardPeg(diameter = pegDiameter); 
+        rotate([0, 0, 180]) pegboardPeg(diameter = pegDiameter, length = horizontalLength); 
     }
 }
 
@@ -70,7 +72,7 @@ module straightPegs(pegDistance = 25.4, pegsToSpanY = 2, pegsToSpanZ = 2, includ
 }
 
 //A pegboard peg that has a horizontal component and then a vertical component that is angled the provided
-//amount from the vertical. Set the $fn variable to control the quality
+//amount from the horizontal. Set the $fn variable to control the quality
 // -- 3/16" hole diameter pegboard is 4.7 mm diameter in metric
 // -- 1/4" hole diameter pegboard is 6.4 mm diameter in metric
 // -- 9/32" hole diameter pegboard is 7.1 mm diameter in metric
@@ -111,8 +113,8 @@ function calculatePegAreaDimensions(numOfPegs, pegDistance, pegsToSpanY, pegsToS
 
 // ***** Test *****
 
-$fn = 60;
-//hookedPegs(pegDiameter = 5, pegDistance = 25.4, pegsToSpanY = 2, pegsToSpanZ = 2, includeBottomPeg = true, numOfPegs = 2);
-straightPegs(pegDistance = 25.4, pegsToSpanY = 2, pegsToSpanZ = 2, includeBottomPeg = true, numOfPegs = 2, pegBigDiameter = 9, pegBigHeight = 3, pegSmallDiameter = 5, pegSmallheight = 5.5);
-pegArea = calculatePegAreaDimensions(numOfPegs = 2, pegDistance = 25.4, pegsToSpanY = 2, pegsToSpanZ = 2);
-echo("pegArea: ", pegArea);
+//$fn = 60;
+//hookedPegs(pegDiameter = 5, pegDistance = 25.4, pegsToSpanY = 2, pegsToSpanZ = 2, includeBottomPeg = true, horizontalLength = 7, verticalLength = 7, hookAngle = 45, numOfPegs = 2);
+//straightPegs(pegDistance = 25.4, pegsToSpanY = 2, pegsToSpanZ = 2, includeBottomPeg = true, numOfPegs = 2, pegBigDiameter = 9, pegBigHeight = 3, pegSmallDiameter = 5, pegSmallheight = 5.5);
+//pegArea = calculatePegAreaDimensions(numOfPegs = 2, pegDistance = 25.4, pegsToSpanY = 2, pegsToSpanZ = 2);
+//echo("pegArea: ", pegArea);
