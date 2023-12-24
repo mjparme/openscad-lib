@@ -59,7 +59,7 @@ module hexes(diameter = 10, lengthOfArea = 100, widthOfArea = 50, height = 10, s
     }
 }
 
-module hexagonPatternFixedSize(length = 50, width = 60, diameter = 14, height = 4, spaceBetween = 3) {
+module hexagonPatternFixedSize(length = 50, width = 60, diameter = 14, height = 4, spaceBetween = 3, yAdjustment = 0) {
     hexRadius = diameter  / 2;
     apothem = sqrt(pow(hexRadius, 2) - pow(hexRadius / 2, 2)); //written in the form a^2 = c^2 - b^2 because we know c and b 
     edgeToEdge = 2 * apothem;
@@ -71,7 +71,7 @@ module hexagonPatternFixedSize(length = 50, width = 60, diameter = 14, height = 
     echo("Hexagon Cols: ", hexagonCols);
 
     intersection() {
-        hexagons();
+        translate([0, yAdjustment, 0]) hexagons();
         if ($children == 0) {
             cube([length, width, height]);
         } else {
