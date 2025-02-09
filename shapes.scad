@@ -6,7 +6,6 @@ module torus(radiusOfTorus = 10, diameterOfCircle = 5, dimensionType = "inner", 
     translate([0, 0, z]) rotate_extrude() translate([adjustedTorusRadius, 0, 0]) circle(d = diameterOfCircle);
 }
 
-
 /**
 	Allows you to create a dome
 	
