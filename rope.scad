@@ -29,4 +29,4 @@ function ropeSection(sizeConstant = 1.9) = [
     for (a = [0 : 5 : 360]) sizeConstant * polar_to_xy([1.8 + abs(cos(2.5 * a)), a])
     ];
 
-ropeCircle(50);
+//ropeCircle(50);
